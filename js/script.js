@@ -1,6 +1,6 @@
-let calText='';
+let calText="";
 let limitValue=0;
-let result=$('#resultMain');
+let resultt=$('#resultMain');
 //
 //
 //
@@ -33,16 +33,16 @@ a=a*1;
 b=b*1;
 
 if(character=='+'){
-    result.text(a+b);
+    resultt.text(a+b);
 }
 else if(character=='-'){
-    result.text(a-b);
+    resultt.text(a-b);
 }
 else if(character=='*'){
-    result.text(a*b);
+    resultt.text(a*b);
 }
 else if(character=='/'){
-    result.text(a/b);
+    resultt.text(a/b);
 }
 else{
     alert('Not valid input');
@@ -56,19 +56,33 @@ else{
 
     // 
 $('button').on('click', function () {
-    if(calText.length<16){
+    if(calText.length<24&&$(this).text()!='='){
         calText=calText+$(this).text();
     }
     
     if($(this).text()=='Clear'){
         calText='';
-        result.text('');
-        limitvalue=0;
+        resultt.text('');
+        limitValue=0;
     }
     else if($(this).text()=='='){
-        calFunction(calText);
-        calText='';
+        //calFunction(calText);
+        
         limitValue=0;
+        let calApi="https://newton.now.sh/api/v2/simplify/"+calText;
+        apiFunction(calApi);
+        calText='';
     }
     $('#calculatorText').text(calText);
     });
+
+    function apiFunction(aKey){
+        console.log(aKey);
+        fetch(aKey)
+        .then(res=>res.json())
+        .then((data)=>{
+            resultt.text(data.result);
+            
+        })
+        
+    }
